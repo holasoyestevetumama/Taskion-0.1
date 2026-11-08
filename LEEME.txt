@@ -1,0 +1,25 @@
+TASKION · PWA para iPhone
+=========================
+
+ARCHIVOS (van todos juntos, en la misma carpeta, sin subcarpetas)
+  index.html · app.js · config.js · manifest.json · sw.js
+  icon-192.png · icon-512.png · maskable-512.png · apple-touch-icon.png
+
+1) PUBLICAR  (necesita HTTPS; sirve cualquier hosting estático)
+   GitHub Pages, Netlify, Cloudflare Pages, Vercel…
+   Sube estos archivos tal cual. No hay que compilar nada.
+
+2) INSTALAR EN EL iPHONE
+   Abre la dirección en Safari → botón Compartir → "Agregar a pantalla de inicio".
+   Ábrela una vez con internet (así descarga todo). Desde ese momento funciona en modo avión.
+   Usa siempre la app instalada: Safari y el icono guardan sus datos por separado.
+
+3) ACTUALIZAR
+   Sube los archivos nuevos y cambia el número en sw.js (CACHE_VERSION = "taskion-v2").
+   La versión nueva se usa al abrir la app (a veces a la segunda apertura).
+
+4) SINCRONIZAR CON UN SERVIDOR (opcional)
+   Escribe la URL en config.js (SYNC_URL). Cada guardado se envía como copia de seguridad (PUT).
+   Sin conexión se guarda en una cola (IndexedDB) y se envía sola, en orden, al volver la red.
+   Para proteger otras peticiones críticas:  window.TaskionSync.syncFetch(url, opciones)
+   Si dejas SYNC_URL vacío, la app funciona igual, solo en el teléfono.

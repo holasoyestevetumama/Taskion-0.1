@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+  <title>Taskion</title>
+
+  <!-- iOS: abrir a pantalla completa desde el icono de inicio -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Taskion">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#0d1117">
+  <meta name="format-detection" content="telephone=no">
+
+  <!-- Rutas relativas (./) para que funcione en cualquier carpeta o subdirectorio -->
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+
+  <!-- Pinta el fondo del último tema antes de que cargue React (evita el destello) -->
+  <script>try{var b=localStorage.getItem("taskion_bg");if(b)document.documentElement.style.background=b}catch(e){}</script>
+  <style>
+    html,body{margin:0;padding:0;background:#0d1117;min-height:100%;-webkit-text-size-adjust:100%}
+    #root{min-height:100vh}
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <noscript>Taskion necesita JavaScript para funcionar.</noscript>
+
+  <script src="./config.js"></script>
+  <script src="./app.js" defer></script>
+
+  <!-- Service Worker: se registra al cargar la ventana y se omite sin errores si el entorno no lo soporta -->
+  <script>
+    (function () {
+      if (!("serviceWorker" in navigator)) return;
+      function register() {
+        navigator.serviceWorker.register("./sw.js").catch(function (err) {
+          console.warn("[PWA] Service worker no registrado:", err && err.message);
+        });
+      }
+      if (document.readyState === "complete") register();
+      else window.addEventListener("load", register);
+    })();
+  </script>
+</body>
+</html>
