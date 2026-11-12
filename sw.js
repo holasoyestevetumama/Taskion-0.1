@@ -1,11 +1,11 @@
 /* Taskion · Service Worker — arranque instantáneo y 100 % offline
    Estrategia
    · Instalación: guarda en caché el "app shell" (HTML, JS, config, manifiesto, iconos).
-   · Páginas: se responden desde la caché y se actualizan en segundo plano.
+   · Páginas: se responden desde la caché y se actualizan en segundo plano (siempre revalidando con el servidor).
    · Archivos estáticos: caché primero + actualización en segundo plano.
    · POST/PUT/DELETE y otros orígenes: no se tocan (la cola offline de la app se encarga). */
 
-const CACHE_VERSION = "taskion-v1";   // ← cambia este número cuando publiques una versión nueva
+const CACHE_VERSION = "taskion-v2";   // ← cambia este número cuando publiques una versión nueva
 
 const CORE = ["./", "./index.html", "./app.js", "./config.js", "./manifest.json"];
 const OPTIONAL = [
@@ -48,7 +48,7 @@ self.addEventListener("fetch", function (event) {
     event.respondWith((async function () {
       const cache = await caches.open(CACHE_VERSION);
       const cached = (await cache.match("./index.html")) || (await cache.match("./"));
-      const update = fetch(req).then(function (res) {
+      const update = fetch("./index.html", { cache: "no-cache" }).then(function (res) {
         if (res && res.ok && !res.redirected) cache.put("./index.html", res.clone());
         return res;
       }).catch(function () { return null; });
@@ -63,7 +63,7 @@ self.addEventListener("fetch", function (event) {
   event.respondWith((async function () {
     const cache = await caches.open(CACHE_VERSION);
     const cached = await cache.match(req, { ignoreSearch: true });
-    const update = fetch(req).then(function (res) {
+    const update = fetch(req, { cache: "no-cache" }).then(function (res) {
       if (res && res.ok && res.type === "basic") cache.put(req, res.clone());
       return res;
     }).catch(function () { return null; });

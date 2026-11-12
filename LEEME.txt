@@ -14,9 +14,15 @@ ARCHIVOS (van todos juntos, en la misma carpeta, sin subcarpetas)
    Ábrela una vez con internet (así descarga todo). Desde ese momento funciona en modo avión.
    Usa siempre la app instalada: Safari y el icono guardan sus datos por separado.
 
-3) ACTUALIZAR
-   Sube los archivos nuevos y cambia el número en sw.js (CACHE_VERSION = "taskion-v2").
-   La versión nueva se usa al abrir la app (a veces a la segunda apertura).
+3) ACTUALIZAR (sin perder tu progreso)
+   a) En el repositorio reemplaza los archivos que cambiaron (esta versión: app.js y sw.js)
+      y haz Commit. Conserva los mismos nombres y la misma dirección web.
+   b) Espera 1-2 minutos a que GitHub Pages publique.
+   c) En el iPhone, con internet: abre la app, ciérrala (desliza hacia arriba) y ábrela otra vez.
+      Si aún ves lo anterior, repite una vez más.
+   Tu progreso vive en el teléfono y los archivos nuevos no lo tocan.
+   NO borres el icono de la pantalla de inicio ni los datos de Safari: ahí está tu progreso.
+   En cada versión nueva cambia el número de CACHE_VERSION en sw.js (taskion-v3, v4...).
 
 4) SINCRONIZAR CON UN SERVIDOR (opcional)
    Escribe la URL en config.js (SYNC_URL). Cada guardado se envía como copia de seguridad (PUT).
